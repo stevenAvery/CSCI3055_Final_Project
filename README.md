@@ -7,7 +7,8 @@ CSCI 3055U Final Project for 100493227
 ├── FrontEnd
 │   └── src
 │       ├── index.html
-│       ├── style.css
+│       ├── css
+│       │   └──style.css
 │       └── cljs
 └── BackEnd
     └── src
