@@ -4,12 +4,12 @@ CSCI 3055U Final Project for 100493227
 
 - tentative structure:
 .
-├── FrontEnd
+├── client
 │   └── src
 │       ├── index.html
 │       ├── css
 │       │   └──style.css
 │       └── cljs
-└── BackEnd
+└── server
     └── src
         └── clj
