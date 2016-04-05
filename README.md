@@ -8,7 +8,9 @@ CSCI 3055U Final Project for 100493227
 │   └── src
 │       ├── index.html
 │       ├── css
-│       │   └──style.css
+│       │   └── style.css
+│       ├── js
+│       │   └── none.js
 │       └── cljs
 └── server
     └── src
