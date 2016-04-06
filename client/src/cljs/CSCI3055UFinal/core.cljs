@@ -9,22 +9,14 @@
 (defn onload []
 	(println "Dom loaded")
 
-	;; just for testing
-	;;(dom/append! (dom/by-id "chat") "<p>testing</p>")
-
 	(events/listen! (dom/by-id "chatInput")
 		:submit
 		(fn [e]
 			(events/prevent-default e)
-
 			(let [inputText (dom/value (css/sel "#chatFoot input[type='text']"))]
-			(if (not= inputText "")
-				(do
-					(dom/append! (css/sel "#chatMessages textarea") (str "> " inputText "\n"))
-					(dom/set-value! (css/sel "#chatFoot input[type='text']") "")))
-			))
-
-
-			))
+				(if (not= inputText "")
+					(do
+						(dom/append! (css/sel "#chatMessages textarea") (str "> " inputText "\n"))
+						(dom/set-value! (css/sel "#chatFoot input[type='text']") "")))))))
 
 (set! (.-onload js/window) onload)

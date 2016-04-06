@@ -16,8 +16,10 @@ lein2 cljsbuild auto
 │       ├── css
 │       │   └── style.css
 │       ├── js
-│       │   └── none.js
+│       │   └── CSCI3055UFinal.js
 │       └── cljs
+│           └── CSCI3055UFinal
+│               └── core.cljs
 └── server
     └── src
         └── clj
