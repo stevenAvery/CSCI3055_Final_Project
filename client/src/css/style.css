@@ -48,13 +48,13 @@ body {
 	height: 100%;
 }
 
-#chatInput {
+#chatFoot {
 	width: calc(100% - 16px);
 	height: calc(36px - 8px);
 	margin: 8px;
 }
 
-#chatInput input[type="text"] {
+#chatFoot input[type="text"] {
 	width: calc(100% - 50px - 8px);
 	height: calc(36px - 8px);
 
@@ -62,11 +62,11 @@ body {
 	float: left;
 }
 
-#chatInput input[type="text"]:focus {
+#chatFoot input[type="text"]:focus {
 	border: 1px solid #939399;
 }
 
-#chatInput input[type="submit"] {
+#chatFoot input[type="submit"] {
 	border: 1px solid #3A97E7;
 
 	-webkit-box-sizing: border-box;
