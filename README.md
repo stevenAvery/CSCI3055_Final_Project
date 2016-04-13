@@ -21,6 +21,8 @@ lein2 cljsbuild auto
 │           └── CSCI3055UFinal
 │               └── core.cljs
 └── server
-    └── src
-        └── clj
+│   └── src
+│       └── clj
+│           └── CSCI3055UFinal
+│               └── core.clj
 ```
