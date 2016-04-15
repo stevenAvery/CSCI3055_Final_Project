@@ -1,2 +1,5 @@
 /client/src/out/
 /client/src/js/
+/server/lib/
+/server/.lein-deps-sum
+/server/target/
