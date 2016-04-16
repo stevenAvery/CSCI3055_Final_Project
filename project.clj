@@ -16,7 +16,10 @@
 
     :source-paths ["src/clj" "src/cljs"]
 
-    :ring {:handler csci3055final.server.handler/app}
+    :ring {:handler csci3055final.server.handler/app
+           :port 8080
+           :auto-reload? true
+           :auto-refresh? true}
     :profiles
     {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                           [ring/ring-mock "0.3.0"]]}}

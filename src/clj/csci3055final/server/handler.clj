@@ -9,7 +9,7 @@
 
 (defroutes app-routes
     (GET "/" [] (views/indexPage))
-    (route/not-found "Not Found"))
+    (route/not-found (views/notFound)))
 
 (def app
     (wrap-defaults app-routes site-defaults))

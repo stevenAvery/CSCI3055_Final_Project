@@ -3,26 +3,21 @@ CSCI 3055U Final Project for 100493227
 - Uses *clojurescript*, and *clojure*
 - can be built with:
 ``` sh
+# to compile client
 lein2 cljsbuild once
 # or
 lein2 cljsbuild auto
+
+# to compile and run server
+lein2 ring server
 ```
 - tentative structure:
 ```
 .
-├── client
-│   └── src
-│       ├── index.html
-│       ├── css
-│       │   └── style.css
-│       ├── js
-│       │   └── CSCI3055UFinal.js
-│       └── cljs
-│           └── CSCI3055UFinal
-│               └── core.cljs
-└── server
-│   └── src
-│       └── clj
-│           └── CSCI3055UFinal
-│               └── core.clj
+├── resources
+│   └── public
+├── src
+│   ├── clj
+│   └── cljs
+└── project.clj
 ```

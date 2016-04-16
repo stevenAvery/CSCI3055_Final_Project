@@ -8,7 +8,8 @@
 
 (enable-console-print!)
 
-(defn onload []
+(defn onload
+    []
     (println "Dom loaded")
 
     (events/listen! (dom/by-id "chatInput")
@@ -20,5 +21,10 @@
                     (do
                         (dom/append! (css/sel "#chatMessages textarea") (str "> " inputText "\n"))
                         (dom/set-value! (css/sel "#chatFoot input[type='text']") "")))))))
+(defn unload
+    []
+    (println "testing"))
+
 
 (set! (.-onload js/window) onload)
+(set! (.-unload js/window) unload)
