@@ -1,4 +1,6 @@
-(ns CSCI3055UFinal.core
+;; lein2 cljsbuild once
+
+(ns csci3055final.client.core
     (:require [domina :as dom]
               [domina.css :as css]
               [domina.events :as events]

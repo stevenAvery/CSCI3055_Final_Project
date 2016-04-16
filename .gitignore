@@ -3,3 +3,8 @@
 /server/lib/
 /server/.lein-deps-sum
 /server/target/
+
+/target/
+/resources/public/out/
+/resources/public/js/
+.lein-plugins
