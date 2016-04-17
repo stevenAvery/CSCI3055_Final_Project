@@ -3,6 +3,8 @@ CSCI 3055U Final Project for 100493227
 - Uses *clojurescript*, and *clojure*
 - can be built with:
 ``` sh
+lein2 deps
+
 # to compile client
 lein2 cljsbuild once
 # or

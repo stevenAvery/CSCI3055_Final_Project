@@ -10,14 +10,18 @@
     :dependencies [[org.clojure/clojure "1.7.0"]
                    [compojure "1.4.0"]
                    [ring/ring-defaults "0.1.5"]
+                   [http-kit "2.1.18"]
                    [hiccup "1.0.4"]
                    [org.clojure/clojurescript "0.0-3211"]
                    [domina "1.0.3"]]
 
     :source-paths ["src/clj" "src/cljs"]
 
+    :main csci3055final.server.handler
+
     :ring {:handler csci3055final.server.handler/app
            :port 8080
+           :websocket true
            :auto-reload? true
            :auto-refresh? true}
     :profiles

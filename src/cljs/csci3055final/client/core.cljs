@@ -8,9 +8,13 @@
 
 (enable-console-print!)
 
+(def websocket* (atom nil))
+
 (defn onload
     []
     (println "Dom loaded")
+
+    (reset! websocket* (js/WebSocket. "ws://localhost:8080/"))
 
     (events/listen! (dom/by-id "chatInput")
         :submit
@@ -19,8 +23,11 @@
             (let [inputText (dom/value (css/sel "#chatFoot input[type='text']"))]
                 (if (not= inputText "")
                     (do
-                        (dom/append! (css/sel "#chatMessages textarea") (str "> " inputText "\n"))
-                        (dom/set-value! (css/sel "#chatFoot input[type='text']") "")))))))
+                        (dom/append!
+                            (css/sel "#chatMessages textarea")
+                            (str "> " inputText "\n"))
+                        (dom/set-value!
+                            (css/sel "#chatFoot input[type='text']") "")))))))
 (defn unload
     []
     (println "testing"))
