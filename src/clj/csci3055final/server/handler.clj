@@ -10,16 +10,26 @@
 
 (defn chat-handler [req]
     (http/with-channel req channel
+        ;; websocket on connect
         (println "client connected")
         (swap! channels conj channel)
         (http/send! channel {:status 200
                              :headers {"Content-Type" "text/plain"}
-                             :body    "Long polling?"})))
+                             :body    "server sending this over websocket"})
+
+        ;; websocket on close
+        (http/on-close channel (fn [status]
+            (println "client disconnected")))
+
+        ;; websocket on receive
+        (http/on-receive channel (fn [data]
+            (println (str "recieved: " data)
+            (http/send! channel data))))))
 
 (defroutes app-routes
     (GET "/" [] (views/indexPage))
-    (GET "/ws" [] (chat-handler))
-    (route/not-found (views/notFound)))
+    (GET "/ws" [] chat-handler)
+    (route/not-found views/notFound))
 
 (def app
     (middleware/wrap-defaults app-routes middleware/site-defaults))
