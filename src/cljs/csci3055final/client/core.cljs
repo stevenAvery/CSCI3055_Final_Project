@@ -11,14 +11,14 @@
 ;;(def ws (new js/WebSocket "ws://localhost:8080/ws"))
 (def websocket (atom nil))
 
-
 (defn onload
   []
   (println "Dom loaded")
 
   ;; connect websocket
   ;; based on https://github.com/aiba/clojurescript-chat-example/
-  (reset! websocket (js/WebSocket. "ws://localhost:8080/ws"))
+  (let [room (dom/attr (css/sel "meta[name='room']") "content")]
+    (reset! websocket (js/WebSocket. (str "ws://localhost:8080/ws/" room))))
   (doall
     (map #(aset @websocket (first %) (second %))
      [["onopen"    (fn []  (println "OPEN"))]
