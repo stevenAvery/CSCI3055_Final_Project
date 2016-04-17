@@ -8,13 +8,11 @@
 
 (enable-console-print!)
 
-(def websocket* (atom nil))
+(def ws (new js/WebSocket "ws://localhost:8080/ws"))
 
 (defn onload
     []
     (println "Dom loaded")
-
-    (reset! websocket* (js/WebSocket. "ws://localhost:8080/"))
 
     (events/listen! (dom/by-id "chatInput")
         :submit
