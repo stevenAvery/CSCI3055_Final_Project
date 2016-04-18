@@ -8,6 +8,9 @@
 
 (enable-console-print!)
 
+(def ^:const currentHostPort
+  (first (re-find #"(\d+.\d+.\d+.\d+:\d+)" (str js/window.location))))
+(def ^:const websocketURI (str "ws://" currentHostPort "/chat-ws/"))
 (def websocket (atom nil))
 
 (defn giveLoginError
@@ -22,7 +25,7 @@
 (defn connectWebsocket
   [username]
   (let [room (dom/attr (css/sel "meta[name='room']") "content")]
-    (reset! websocket (js/WebSocket. (str "ws://localhost:8080/ws/" room))))
+    (reset! websocket (js/WebSocket. (str websocketURI room))))
   (doall
     (map #(aset @websocket (first %) (second %))
      [["onopen"

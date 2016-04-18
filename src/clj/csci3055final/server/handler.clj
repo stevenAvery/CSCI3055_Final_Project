@@ -51,7 +51,9 @@
     (sendMessageToRoom currRoom messageToSend))
   )
 
-(defn chat-handler [req]
+(defn chat-handler
+  "handling the chat websocket"
+  [req]
   (http/with-channel req currChannel
     (let [currRoom (get (:params req) :room)]
       ;; websocket on connect
@@ -75,8 +77,8 @@
               )))))))
 
 (defroutes app-routes
-  (GET ["/chat/:room", :room roomRegex] [room] views/indexPage)
-  (GET ["/ws/:room",    :room roomRegex] [room] chat-handler)
+  (GET ["/chat/:room",    :room roomRegex] [room] views/indexPage)
+  (GET ["/chat-ws/:room", :room roomRegex] [room] chat-handler)
   (route/not-found (views/notFound)))
 
 (def app
