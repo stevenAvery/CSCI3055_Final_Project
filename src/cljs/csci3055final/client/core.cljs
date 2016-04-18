@@ -10,6 +10,10 @@
 
 (def websocket (atom nil))
 
+(defn basicJSONGenerator
+  [key value]
+  (str "{\"" key "\" : \"" value "\"}"))
+
 (defn connectWebsocket
   [username]
   (let [room (dom/attr (css/sel "meta[name='room']") "content")]
@@ -20,8 +24,7 @@
         (fn []
           (println "OPEN")
           ;; send the username
-          (let [username (dom/value (css/sel "#loginContent input[type='text']"))]
-            (.send @websocket username)))]
+          (.send @websocket (basicJSONGenerator "username" username)))]
       ["onclose"   (fn []  (println "CLOSE"))]
       ["onerror"   (fn [e] (println (str "ERROR: " e)))]
       ["onmessage" (fn [m]
@@ -29,7 +32,7 @@
           (println (str "MESSAGE: " data))
           (dom/append! ;; append message to message area
             (css/sel "#chatMessages textarea")
-            (str "SERVER: " data "\n"))))]])))
+            (str data "\n"))))]])))
 
 (defn onload
   []
@@ -40,8 +43,10 @@
     :submit
     (fn [e]
       (events/prevent-default e) ;; don't reload the page
-      (dom/destroy! (dom/by-id "loginDialog")) ;; destroy login dialog
-      (connectWebsocket) ;; connect websocket
+      (let [username (dom/value (css/sel "#loginContent input[type='text']"))]
+        (dom/destroy! (dom/by-id "loginDialog")) ;; destroy login dialog
+        (connectWebsocket username)) ;; connect websocket
+
       (dom/set-style! (dom/by-id "chat") :display "inline"))) ;; show chat dialog
 
   ;; event listener for chat input
@@ -52,10 +57,8 @@
       (let [inputText (dom/value (css/sel "#chatFoot input[type='text']"))]
         (if (not= inputText "")
           (do
-            (.send @websocket inputText) ;; send inputText to server
-            (dom/append!
-              (css/sel "#chatMessages textarea")
-              (str "> " inputText "\n"))
+            (.send @websocket (basicJSONGenerator "message" inputText)) ;; send inputText to server
+            (dom/append! (css/sel "#chatMessages textarea"))
             (dom/set-value!
               (css/sel "#chatFoot input[type='text']") "")))))))
 

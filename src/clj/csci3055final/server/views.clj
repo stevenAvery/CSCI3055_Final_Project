@@ -56,4 +56,4 @@
     [:div {:id "centreBox"}
       [:h1 "404 Page Not Found"]
       [:p "The page you've requested cannot be found"]
-      [:a {:href "/"} [:p "return to home page"]]]]))
+      [:a {:href "/chat/home"} [:p "return to home page"]]]]))
