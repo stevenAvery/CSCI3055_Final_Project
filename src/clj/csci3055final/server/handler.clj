@@ -57,7 +57,6 @@
       ;; websocket on connect
       (println (str "client connected to " currRoom))
 
-
         ;; websocket on close
       (http/on-close currChannel
         (fn [status]
@@ -66,7 +65,6 @@
       ;; websocket on receive
       (http/on-receive currChannel
         (fn [data]
-          (println (str "recieved: \"" data "\""))
           (let [parsedData (parseJSON data)]
             (cond
               ;; initial connect (send username)

@@ -18,8 +18,13 @@
   "Get the username from the current client"
   []
   [:div {:id "loginDialog"}
+    ;; title bar
     [:div {:id "loginTitle"}
       [:h3 "Username"]]
+    ;; error
+    [:div {:id "loginError"}
+      [:p {:id "loginErrorText"}]]
+    ;; content including form
     [:div {:id "loginContent"}
     [:form {:id "loginInput"}
       [:input {:type "text" :autofocus "autofocus" :class "chatText"}]

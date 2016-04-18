@@ -10,6 +10,11 @@
 
 (def websocket (atom nil))
 
+(defn giveLoginError
+  [error]
+  (dom/set-text! (dom/by-id "loginErrorText") error)
+  (dom/set-style! (dom/by-id "loginDialog") :height "100px")) ;; TODO: fix this from being hard coded
+
 (defn basicJSONGenerator
   [key value]
   (str "{\"" key "\" : \"" value "\"}"))
@@ -44,10 +49,12 @@
     (fn [e]
       (events/prevent-default e) ;; don't reload the page
       (let [username (dom/value (css/sel "#loginContent input[type='text']"))]
-        (dom/destroy! (dom/by-id "loginDialog")) ;; destroy login dialog
-        (connectWebsocket username)) ;; connect websocket
-
-      (dom/set-style! (dom/by-id "chat") :display "inline"))) ;; show chat dialog
+        (if (re-matches #"[\w._]+" username) ;; check for valid username
+          (do
+            (dom/destroy! (dom/by-id "loginDialog")) ;; destroy login dialog
+            (connectWebsocket username) ;; connect websocket
+            (dom/set-style! (dom/by-id "chat") :display "inline")) ;; show chat dialog
+          (giveLoginError "username can only conatin leters, numbers, underscore, or period")))))
 
   ;; event listener for chat input
   (events/listen! (dom/by-id "chatInput")
@@ -58,7 +65,7 @@
         (if (not= inputText "")
           (do
             (.send @websocket (basicJSONGenerator "message" inputText)) ;; send inputText to server
-            (dom/append! (css/sel "#chatMessages textarea"))
+            ;;(dom/append! (css/sel "#chatMessages textarea"))
             (dom/set-value!
               (css/sel "#chatFoot input[type='text']") "")))))))
 
