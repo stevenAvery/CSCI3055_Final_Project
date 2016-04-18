@@ -14,6 +14,19 @@
       [:div {:style "clear: both;"}]]
     ])
 
+(defn getUsername
+  "Get the username from the current client"
+  []
+  [:div {:id "loginDialog"}
+    [:div {:id "loginTitle"}
+      [:h3 "Username"]]
+    [:div {:id "loginContent"}
+    [:form {:id "loginInput"}
+      [:input {:type "text" :autofocus "autofocus" :class "chatText"}]
+      [:input {:type "submit" :value "login"}]]
+    [:div {:style "clear: both;"}]]
+  ])
+
 (defn indexPage
   "generates the html5 index page"
   [req]
@@ -28,7 +41,9 @@
     ;; put the room in metadata
     [:meta {:name "room" :content (get (:params req) :room)}]
   [:body
-    (chat)]))
+    (chat)
+    (getUsername)
+    ]))
 
 (defn notFound
   "generates the html5 404 not found page"

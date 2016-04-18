@@ -15,7 +15,7 @@
   (http/with-channel req currChannel
     (let [currRoom (get (:params req) :room)]
       ;; websocket on connect
-      (println "client connected")
+      (println (str "client connected to " currRoom))
       ;; add client to list of the clients
       (swap! webSockets conj {:channel currChannel :room currRoom})
       ;; send response
@@ -26,7 +26,7 @@
         ;; websocket on close
       (http/on-close currChannel
         (fn [status]
-          (println "client disconnected")))
+          (println (str "client disconnected from " currRoom))))
 
       ;; websocket on receive
       (http/on-receive currChannel
@@ -43,7 +43,7 @@
                   (http/send! clientChannel data))))))))))
 
 (defroutes app-routes
-  (GET ["/index/:room", :room roomRegex] [room] views/indexPage)
+  (GET ["/chat/:room", :room roomRegex] [room] views/indexPage)
   (GET ["/ws/:room",    :room roomRegex] [room] chat-handler)
   (route/not-found (views/notFound)))
 

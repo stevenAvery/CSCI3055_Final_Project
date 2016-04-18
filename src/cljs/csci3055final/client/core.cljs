@@ -8,20 +8,20 @@
 
 (enable-console-print!)
 
-;;(def ws (new js/WebSocket "ws://localhost:8080/ws"))
 (def websocket (atom nil))
 
-(defn onload
-  []
-  (println "Dom loaded")
-
-  ;; connect websocket
-  ;; based on https://github.com/aiba/clojurescript-chat-example/
+(defn connectWebsocket
+  [username]
   (let [room (dom/attr (css/sel "meta[name='room']") "content")]
     (reset! websocket (js/WebSocket. (str "ws://localhost:8080/ws/" room))))
   (doall
     (map #(aset @websocket (first %) (second %))
-     [["onopen"    (fn []  (println "OPEN"))]
+     [["onopen"
+        (fn []
+          (println "OPEN")
+          ;; send the username
+          (let [username (dom/value (css/sel "#loginContent input[type='text']"))]
+            (.send @websocket username)))]
       ["onclose"   (fn []  (println "CLOSE"))]
       ["onerror"   (fn [e] (println (str "ERROR: " e)))]
       ["onmessage" (fn [m]
@@ -29,7 +29,20 @@
           (println (str "MESSAGE: " data))
           (dom/append! ;; append message to message area
             (css/sel "#chatMessages textarea")
-            (str "SERVER: " data "\n"))))]]))
+            (str "SERVER: " data "\n"))))]])))
+
+(defn onload
+  []
+  (println "Dom loaded")
+
+  ;; event listener for login input
+  (events/listen! (dom/by-id "loginInput")
+    :submit
+    (fn [e]
+      (events/prevent-default e) ;; don't reload the page
+      (dom/destroy! (dom/by-id "loginDialog")) ;; destroy login dialog
+      (connectWebsocket) ;; connect websocket
+      (dom/set-style! (dom/by-id "chat") :display "inline"))) ;; show chat dialog
 
   ;; event listener for chat input
   (events/listen! (dom/by-id "chatInput")
