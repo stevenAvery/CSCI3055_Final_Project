@@ -7,10 +7,11 @@
             [csci3055final.server.views :as views]
             [csci3055final.server.chatHandler :as chat]))
 
-(def ^:const roomRegex #"\w+")
+(def ^:const roomRegex #"[\w.]+")
 
 (defroutes app-routes
-  (GET ["/chat/:room",    :room roomRegex] [room] views/indexPage)
+  (GET "/chat/home" [] (views/homePage))
+  (GET ["/chat/:room",    :room roomRegex] [room] views/chatPage)
   (GET ["/chat-ws/:room", :room roomRegex] [room] chat/chat-handler)
   (route/not-found (views/notFound)))
 

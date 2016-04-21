@@ -1,8 +1,7 @@
 (ns csci3055final.client.core
   (:require [domina :as dom]
             [domina.css :as css]
-            [domina.events :as events]
-            [domina.xpath :as xpath]))
+            [domina.events :as events]))
 
 (enable-console-print!)
 
@@ -28,21 +27,19 @@
     (map #(aset @websocket (first %) (second %))
      [["onopen"
         (fn []
-          (println "OPEN")
+          (println "socket: open")
           ;; send the username
           (.send @websocket (formattedMessage "username" username)))]
-      ["onclose"   (fn []  (println "CLOSE"))]
-      ["onerror"   (fn [e] (println (str "ERROR: " e)))]
-      ["onmessage" (fn [m]
-        (let [data (.-data m)]
-          (println (str "MESSAGE: " data))
-          (dom/append! ;; append message to message area
-            (css/sel "#chatMessages textarea")
-            (str data "\n"))))]])))
+      ["onclose"   (fn []  (println "socket: close"))]
+      ["onerror"   (fn [error] (println (str "socket: error " error)))]
+      ["onmessage" (fn [message]
+        ;; append message to message area
+        (let [data (.-data message)]
+          (dom/append! (css/sel "#chatMessages textarea") (str data "\n"))))]])))
 
 (defn onload
+  "called when the DOM has been loaded"
   []
-  (println "Dom loaded")
 
   ;; event listener for login input
   (events/listen! (dom/by-id "loginInput")
@@ -54,8 +51,10 @@
           (do
             (dom/destroy! (dom/by-id "loginDialog")) ;; destroy login dialog
             (connectWebsocket username) ;; connect websocket
-            (dom/set-style! (dom/by-id "chat") :display "inline")) ;; show chat dialog
-          (giveLoginError "username can only conatin leters, numbers, underscore, or period")))))
+            (dom/set-style! (dom/by-id "chat") :display "inline") ;; show chat dialog
+            (.focus (js/document.getElementById "chatInputText"))) ;; focus chat box
+
+          (giveLoginError "username can only conatin leters, numbers, underscores, or periods.")))))
 
   ;; event listener for chat input
   (events/listen! (dom/by-id "chatInput")
@@ -71,7 +70,9 @@
               (css/sel "#chatFoot input[type='text']") "")))))))
 
 (defn unload
+  "called when the DOM is unloaded"
   []
+  ;; close the socket connection
   (.close @websocket))
 
 
