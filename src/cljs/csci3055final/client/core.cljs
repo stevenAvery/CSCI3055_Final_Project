@@ -1,5 +1,3 @@
-;; lein2 cljsbuild once
-
 (ns csci3055final.client.core
   (:require [domina :as dom]
             [domina.css :as css]
@@ -8,9 +6,9 @@
 
 (enable-console-print!)
 
-(def ^:const currentHostPort
-  (first (re-find #"(\d+.\d+.\d+.\d+:\d+)" (str js/window.location))))
-(def ^:const websocketURI (str "ws://" currentHostPort "/chat-ws/"))
+(def ^:const currentHost
+  (str js/window.location.host))
+(def ^:const websocketURI (str "ws://" currentHost "/chat-ws/"))
 (def websocket (atom nil))
 
 (defn giveLoginError
@@ -18,7 +16,7 @@
   (dom/set-text! (dom/by-id "loginErrorText") error)
   (dom/set-style! (dom/by-id "loginDialog") :height "100px")) ;; TODO: fix this from being hard coded
 
-(defn basicJSONGenerator
+(defn formattedMessage
   [key value]
   (str "{\"" key "\" : \"" value "\"}"))
 
@@ -32,7 +30,7 @@
         (fn []
           (println "OPEN")
           ;; send the username
-          (.send @websocket (basicJSONGenerator "username" username)))]
+          (.send @websocket (formattedMessage "username" username)))]
       ["onclose"   (fn []  (println "CLOSE"))]
       ["onerror"   (fn [e] (println (str "ERROR: " e)))]
       ["onmessage" (fn [m]
@@ -67,7 +65,7 @@
       (let [inputText (dom/value (css/sel "#chatFoot input[type='text']"))]
         (if (not= inputText "")
           (do
-            (.send @websocket (basicJSONGenerator "message" inputText)) ;; send inputText to server
+            (.send @websocket (formattedMessage "message" inputText)) ;; send inputText to server
             ;;(dom/append! (css/sel "#chatMessages textarea"))
             (dom/set-value!
               (css/sel "#chatFoot input[type='text']") "")))))))

@@ -21,13 +21,15 @@
     ;; title bar
     [:div {:id "loginTitle"}
       [:h3 "Username"]]
+
     ;; error
     [:div {:id "loginError"}
       [:p {:id "loginErrorText"}]]
+
     ;; content including form
     [:div {:id "loginContent"}
     [:form {:id "loginInput"}
-      [:input {:type "text" :autofocus "autofocus" :class "chatText"}]
+      [:input {:type "text" :autofocus "autofocus" :class "chatText" :value "anonymous"}]
       [:input {:type "submit" :value "login"}]]
     [:div {:style "clear: both;"}]]
   ])
@@ -42,8 +44,6 @@
     (include-js  "/out/goog/base.js"
                  "/js/main.js"
                  "/js/clientcore.js")]
-
-    ;; put the room in metadata
     [:meta {:name "room" :content (get (:params req) :room)}]
   [:body
     (chat)
