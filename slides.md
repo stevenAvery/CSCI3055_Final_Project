@@ -10,6 +10,7 @@ author: Steven Avery
 
 # Try Online:
 - http://159.203.45.249:8080/chat/roomName
+- bit.ly/1roEqHH
 
 \newpage
 # Problem Statement:
@@ -18,6 +19,7 @@ author: Steven Avery
 \newpage
 # Problem:
 - For example:
+    - unique accounts
     - managing friends lists
     - Slack teams
 
@@ -47,13 +49,15 @@ author: Steven Avery
 # Alternatives:
 ## Clojure:
 - many alternative for server development, including:
+    - PHP
     - Python with Django
     - Ruby on Rails
     - Server-Side Java
     - Node.js
 
 ## Clojurescript:
-- javascript
+- Javascript
+- Dart
 
 \newpage
 # Alternatives:
@@ -76,10 +80,26 @@ lein run
 ```
 
 \newpage
-# Code Walk:
-​
-type systems​
-type inference
-lexical scoping and closure
-functions as data, coroutines ​
-list comprehension
+# Code Walk
+```
+    .
+    +-- project.clj
+    +-- resources/public
+    |   +-- css
+    |   +-- js
+    +-- src
+        +-- clj/csci3055final/server
+        |   +-- chatHandler.clj
+        |   +-- handler.clj
+        |   +-- views.clj
+        +-- cljs/csci3055final/client
+            +-- core.cljs
+```
+
+
+\newpage
+
+# Demo
+
+\newpage
+# Thanks

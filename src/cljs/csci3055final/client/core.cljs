@@ -13,13 +13,15 @@
 (defn giveLoginError
   [error]
   (dom/set-text! (dom/by-id "loginErrorText") error)
-  (dom/set-style! (dom/by-id "loginDialog") :height "100px")) ;; TODO: fix this from being hard coded
+  (dom/set-style! (dom/by-id "loginDialog") :height "100px"))
 
 (defn formattedMessage
+  "formats message to be sent to server"
   [key value]
   (str "{\"" key "\" : \"" value "\"}"))
 
 (defn connectWebsocket
+  "connect to websocket"
   [username]
   (let [room (dom/attr (css/sel "meta[name='room']") "content")]
     (reset! websocket (js/WebSocket. (str websocketURI room))))
